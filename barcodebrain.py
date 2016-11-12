@@ -5,33 +5,18 @@ time = []
 name = []
 
 
-def idconvert(roster_file, time_file):
-    print "--- STARTING ID CONVERSION ---"
-
-    namefile = open(roster_file, "r")
-    timefile = open(time_file, "r+b")
-
-    namereader = csv.reader(namefile, delimiter=",")
-    timereader = csv.reader(timefile, delimiter=",")
-
-    for lines in timereader:
-        time.append(lines)
-    for lines in namereader:
-        name.append(lines)
-
-    timefile.seek(0)
-
-    for line in time:
-        for key in name:
-            if line[0] == key[0]:
-                print "Change " + line[0] + " to " + key[1]
-                timefile.write(str(key[1]) + "," + str(line[1]) + "\n")
-    namefile.close()
-    timefile.close()
-    print "--- FINISHED ID CONVERSION ---"
+def idtoname(roster_file, num):
+    file = open(roster_file, "r")
+    csvfile = csv.reader(file, delimiter=",")
+    for line in csvfile:
+        if line[0] == num:
+            print "Converted " + line[0] + " to " + line[1]
+            return line[1]
+    print "Could not get name for User " + num
+    return num
 
 
-def getid():
+def getid(roster_file):
     print "--- STARTING ID FETCH ---"
     filename = "attendance/attendance" + str(
         datetime.date.strftime(datetime.datetime.today().date(), "%m-%d-%y")) + ".csv"
@@ -45,8 +30,9 @@ def getid():
         if num == "-1":
             break
         num = num[8:11]
-        print "Thank you, User " + num
-        idwriter.writerow([num, datetime.time.strftime(datetime.datetime.now().time(), "%I:%M:%S")])
+        name = idtoname(roster_file, num)
+        print "Thank you, " + name
+        idwriter.writerow([name, datetime.time.strftime(datetime.datetime.now().time(), "%I:%M:%S")])
     idfile.close()
     print "--- FINISHED ID FETCH ---"
     return filename

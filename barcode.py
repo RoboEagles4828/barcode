@@ -2,6 +2,5 @@ import barcodebrain
 
 ROSTER = "roster.csv"
 
-fileName = barcodebrain.getid()
-barcodebrain.idconvert(ROSTER, fileName)
+fileName = barcodebrain.getid(ROSTER)
 barcodebrain.findtimediffs(fileName)
