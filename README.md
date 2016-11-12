@@ -1,1 +1,1 @@
-"# Barcode Scanner Code" 
+# Barcode Scanner Code
