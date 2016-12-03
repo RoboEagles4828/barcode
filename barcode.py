@@ -1,4 +1,8 @@
 import barcodebrain
+import os
+
+if not os.path.exists("attendance"):
+        os.makedirs("attendance")
 
 ROSTER = "roster.csv"
 
