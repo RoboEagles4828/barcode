@@ -34,6 +34,7 @@ def getid(roster_file):
                 #print "Converted " + str(num) + " to " + name
                 print "Thank you, " + name + "(" + str(num) + ")"
                 idwriter.writerow([name, datetime.time.strftime(datetime.datetime.now().time(), "%I:%M:%S")])
+		idfile.flush()
             else:
                 print "error: '" + str(num) + "' in not a valid id number" #"Could not get name for User " + str(num)
         except:
