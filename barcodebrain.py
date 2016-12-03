@@ -4,16 +4,13 @@ import datetime
 time = []
 name = []
 
-
 def idtoname(roster_file, num):
     file = open(roster_file, "r")
     csvfile = csv.reader(file, delimiter=",")
     for line in csvfile:
-        if line[0] == num:
-            print "Converted " + line[0] + " to " + line[1]
-            return line[1]
-    print "Could not get name for User " + num
-    return num
+        if int(line[0]) == num:
+            return True, line[1]
+    return False, str(num)
 
 
 def getid(roster_file):
@@ -26,13 +23,21 @@ def getid(roster_file):
     idwriter = csv.writer(idfile, delimiter=",")
 
     while True:
-        num = raw_input("Enter ID: ")
-        if num == "-1":
-            break
-        num = num[8:11]
-        name = idtoname(roster_file, num)
-        print "Thank you, " + name
-        idwriter.writerow([name, datetime.time.strftime(datetime.datetime.now().time(), "%I:%M:%S")])
+        try:
+            inp = raw_input("Enter ID: ")
+            num = int(inp)
+            if num < 0: #num=="-1":
+                break
+            #num = num[8:11]
+            found, name = idtoname(roster_file, num)
+	    if found:
+                #print "Converted " + str(num) + " to " + name
+                print "Thank you, " + name + "(" + str(num) + ")"
+                idwriter.writerow([name, datetime.time.strftime(datetime.datetime.now().time(), "%I:%M:%S")])
+            else:
+                print "error: '" + str(num) + "' in not a valid id number" #"Could not get name for User " + str(num)
+        except:
+            print "error: '" + inp + "' is not a number"
     idfile.close()
     print "--- FINISHED ID FETCH ---"
     return filename
