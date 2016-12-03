@@ -25,6 +25,8 @@ def getid(roster_file):
     while True:
         try:
             inp = raw_input("Enter ID: ")
+            if len(inp) > 9:
+                inp = inp[:-1]
             num = int(inp)
             if num < 0: #num=="-1":
                 break
