@@ -4,6 +4,9 @@ import os
 import csv
 import datetime
 
+output_format = ".csv"
+sum_extension = "-sum"
+
 #get YYYY-MM-DD string
 def get_date():
 	return datetime.date.strftime(datetime.datetime.today().date(),"%Y-%m-%d")
@@ -76,14 +79,31 @@ class Individual():
 			
 			print()
 
+	#JSON representation of individual
+	def toJSON(self):		
+		s = '"' + str(self.ID) + '":{'
+		s += '"name":"' + self.name + '",'
+		s += '"times":{'
+		s += '"total":"' + self.combined_time() + '",'
+		s += '"stamps":["'
+		s += '","'.join(self.times)
+		s += '"]}}'
+		return s
 
 #holds all attendance data for each individual
 class Record():
 	def __init__(self, roster_file, attendance_folder, remember_old):
 		self.remember_old = remember_old
 		self.roster_file = roster_file
-		self.attendance_file = attendance_folder + "/" + get_date()
-		self.output_format = ".csv"
+		self.date = get_date()
+		self.attendance_file = os.path.join(attendance_folder, self.date)
+		self.build_record()
+
+	def __init__(self, roster_file, attendance_folder, remember_old, date):
+		self.remember_old = remember_old
+		self.roster_file = roster_file
+		self.date = date
+		self.attendance_file = os.path.join(attendance_folder, date)
 		self.build_record()
 
 	#parse roster file into record of individuals
@@ -95,8 +115,8 @@ class Record():
 		roster_data.close()
 
 		#reload old attendance data from same day if specified
-		if self.remember_old and os.path.exists(self.attendance_file + self.output_format):
-			attendance_data = open(self.attendance_file + self.output_format, "r")
+		if self.remember_old and os.path.exists(self.attendance_file + output_format):
+			attendance_data = open(self.attendance_file + output_format, "r")
 			for identity in csv.reader(attendance_data, delimiter = ","):
 				try:
 					ID = int(identity[0])
@@ -135,8 +155,8 @@ class Record():
 
 	#write out record to attendence csv
 	def write(self):
-		file_time_stamps = self.attendance_file + self.output_format
-		file_combined_time = self.attendance_file + "-sum" + self.output_format
+		file_time_stamps = self.attendance_file + output_format
+		file_combined_time = self.attendance_file + sum_extension + output_format
 
 		f1 = open(file_time_stamps, "w")
 		f2 = open(file_combined_time, "w")
@@ -168,6 +188,24 @@ class Record():
 		
 		f2.flush()
 		f2.close()
+
+	#JSON representation for record
+	def toJSON(self):
+		s = '"' + self.date + '":'
+
+		#array of JSONs for each individual
+		data = "{"
+		for ID in self.record:
+			individual = self.record[ID]
+			if individual.showed_up:
+				data += individual.toJSON()
+				data += ","
+		data = data[:-1] + "}"
+
+		#if no people in record, return empty array
+		if len(data) < 3:
+			return s + "{}"
+		return s + data
 
 	#track attendance and returns False if user quits
 	def track_attendance(self):
