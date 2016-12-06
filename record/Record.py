@@ -14,6 +14,15 @@ class Record():
 		self.attendance_file = os.path.join(attendance_folder, date)
 		self.build_record()
 
+	#print record
+	def __repr__(self):
+		s = ""
+		for ID in self.record:
+			s += str(self.record[ID])
+		if len(s) < 2:
+			return ""
+		return s[:-1]
+
 	#parse roster file into record of individuals
 	def build_record(self):
 		roster_data = open(self.roster_file, "r")
@@ -37,7 +46,7 @@ class Record():
 						print("warning: name did not match ID ", end = "")
 						print("could not parse " + identity[0] + "," + identity[1] + " ...")
 				except:
-					print("warning: could not parse " + identity[0] + "," + identity[1] + " ...")
+					print("warning: could not parse " + ",".join(identity))
 
 	#get individual with specified ID
 	def get_individual(self, ID):
@@ -55,11 +64,6 @@ class Record():
 	#sign-in individual with specified ID
 	def sign_in(self, ID):
 		self.record[ID].sign_in()
-
-	#print record
-	def print(self):
-		for ID in self.record:
-			self.record[ID].print()
 
 	#write out record to attendence csv
 	def write(self):

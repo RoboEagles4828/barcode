@@ -20,5 +20,6 @@ while(True):
 		print("Quitting...")
 		break
 
-#r.print()
+print()
+print(r)
 r.write()

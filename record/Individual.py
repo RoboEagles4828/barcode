@@ -11,6 +11,29 @@ class Individual():
 		self.is_signed_in = False
 		self.showed_up = False
 
+	#print individual
+	def __repr__(self):
+		s = ""
+
+		#don't print data if the person never showed up
+		if self.showed_up:
+			#name and ID
+			s += self.name + " (" + str(self.ID) + ")\n"
+
+			#print total time signed in
+			s += "  " + self.combined_time() + "\n  "
+
+			#print all time-stamps
+			for time in self.times:
+				s += time + " "
+
+			#if signed in print current time stamp
+			if self.is_signed_in:
+				s += get_time()
+			s += "\n"
+
+		return s
+
 	#sign individual in at current system time
 	def sign_in(self):
 		self.times.append(get_time())
@@ -32,26 +55,6 @@ class Individual():
 			total_time -= time_to_seconds(self.times[-1])
 
 		return seconds_to_time(total_time)
-
-	#print individual
-	def print(self):
-		#don't print data if the person never showed up
-		if self.showed_up:
-			#print name and ID
-			print(self.name + " (" + str(self.ID) + ")\t", end = "")
-
-			#print total time signed in
-			print(self.combined_time())
-
-			#print all time-stamps
-			for time in self.times:
-				print(time + " ", end = "")
-
-			#if signed in print current time stamp
-			if self.is_signed_in:
-				print(get_time(), end = "")
-			
-			print()
 
 	#JSON representation of individual
 	def toJSON(self):		
