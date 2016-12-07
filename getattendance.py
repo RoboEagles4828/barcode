@@ -25,5 +25,6 @@ for file in files:
 	json += ","
 json = json[:-1] + "}"
 
-#print out final json
+if len(json) < 2:
+	json = ""
 print(json)
