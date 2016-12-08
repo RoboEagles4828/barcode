@@ -25,7 +25,7 @@ class Record():
 
 	#parse roster file into record of individuals
 	def build_record(self):
-		roster_data = open(self.roster_file, "r")
+		roster_data = open(self.roster_file, "r", newline = "")
 		self.record = {}
 		for identity in csv.reader(roster_data, delimiter = ","):
 			self.record[int(identity[0])] = Individual(int(identity[0]), identity[1])
@@ -33,7 +33,7 @@ class Record():
 
 		#reload old attendance data from same day if specified
 		if self.remember_old and os.path.exists(self.attendance_file + output_format):
-			attendance_data = open(self.attendance_file + output_format, "r")
+			attendance_data = open(self.attendance_file + output_format, "r", newline = "")
 			for identity in csv.reader(attendance_data, delimiter = ","):
 				try:
 					ID = int(identity[0])
@@ -70,8 +70,8 @@ class Record():
 		file_time_stamps = self.attendance_file + output_format
 		file_combined_time = self.attendance_file + sum_extension + output_format
 
-		f1 = open(file_time_stamps, "w")
-		f2 = open(file_combined_time, "w")
+		f1 = open(file_time_stamps, "w", newline = "")
+		f2 = open(file_combined_time, "w", newline = "")
 
 		writer1 = csv.writer(f1, delimiter = ",")
 		writer2 = csv.writer(f2, delimiter = ",")
