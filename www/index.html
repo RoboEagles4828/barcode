@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, user-scalable=no"/>
+    <title>Robo Eagles Attendance</title>
+    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/download.min.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+  <body>
+
+    <div id="attendance-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Attendance" onshow="getAttendance()">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Attendance History</h4>
+          </div>
+          <div id="attendanceContainer" class="modal-body container-fluid"></div>
+          <div class="modal-footer">
+            <button id="leftbutton" type="button" style="visibility:hidden" class="btn btn-default" onclick="openList()">Back</button>
+            <button id="rightbutton" type="button" class="btn btn-default" onclick="getAttendance()">Refresh</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="col-sm-2"></div>
+      <div id="page" class="col-xs-12 col-sm-8">
+        <h1>Robo Eagles Attendance</h1>
+        <hr>
+        <div class="row">
+          <div class="col-xs-1 col-sm-2"></div>
+          <div class="col-xs-10 col-sm-8">
+            <img id="logo" src="logo.png"></img>
+          </div>
+          <div class="col-xs-1 col-sm-2"></div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="button" data-toggle="modal" data-target="#attendance-modal">
+              <div>Attendance History</div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div id="footer"">
+          <div>Copyright &copy; 2016 Trump Enterprises</div>
+        </div>
+      </div>
+      <div class="col-sm-2 col-md-3"></div>
+    </div>
+
+  </body>
+</html>
