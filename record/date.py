@@ -13,6 +13,12 @@ def get_date():
 def get_time():
 	return datetime.time.strftime(datetime.datetime.now().time(), "%H:%M:%S")
 
+def pretty_int(i):
+	ret = str(i)
+	if i < 10:
+		return "0" + ret
+	return ret
+
 #get number of seconds from time string
 def time_to_seconds(time):
 	t = time.split(":")
@@ -24,4 +30,4 @@ def seconds_to_time(s):
 	s -= hr * 3600
 	mn = int(s / 60)
 	s -= mn * 60
-	return str(hr) + ":" + str(mn) + ":" + str(s)
+	return pretty_int(hr) + ":" + pretty_int(mn) + ":" + pretty_int(s)
