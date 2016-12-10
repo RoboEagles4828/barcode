@@ -160,6 +160,12 @@ class Record():
 				print("Wrote attendance to '" + self.attendance_file + output_format + "'")
 				return True
 
+			#show attendance if 's' or 'show' typed in
+			if inp == "s" or inp == "show":
+				print("Attendance:")
+				print(self)
+				return True
+
 			#input is not an integer
 			print("error: '" + inp + "' is not a number")
 
