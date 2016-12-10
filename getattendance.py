@@ -17,7 +17,7 @@ if not os.path.exists(attendance_folder):
 
 #get list of attendance ".csv" files that don't end in "-sum.csv"
 files = [f.replace(record.output_format, "") for f in os.listdir(attendance_folder) if valid_attendance_file(f)]
-files.sort()
+files.sort(reverse = True)
 
 #append json for each file to final json
 json = '{'
