@@ -154,6 +154,12 @@ class Record():
 			if inp == "q" or inp == "quit" or inp == "exit":
 				return False
 
+			#write csv if 'w' or 'write' typed in
+			if inp == "w" or inp == "write":
+				self.write()
+				print("Wrote attendance to '" + self.attendance_file + output_format + "'")
+				return True
+
 			#input is not an integer
 			print("error: '" + inp + "' is not a number")
 
