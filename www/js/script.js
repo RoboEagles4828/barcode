@@ -54,8 +54,30 @@ var openFile = function(i) {
 	document.getElementById("rightbutton").onclick = function() { download(makeCsv(i), i + ".csv", "text/csv"); };
 	document.getElementById("rightbutton").innerHTML = "Download";
 
-	var view = "<p>" + makeCsv(i).replace(/\n/g,"</p><p>") + "</p>";
-	attendanceContainer.innerHTML = view;
+
+
+
+	var view = "<table class=\"table table-hover\">";
+	view += "<tr><th>ID</th>";
+	view += "<th>First Name</th><th>Last Name</th>";
+    view += "<th>Time</th></tr>";
+
+	var name;
+	var person;
+	for (ID in attendance[i]) {
+		person = attendance[i][ID];
+		name = person["name"].split(" ");
+		view += "<tr>";
+		view +=	"<td>" + ID + "</td>";
+		view += "<td>" + name[0] + "</td>";
+		view += "<td>" + name[1] + "</td>";
+		view +=	"<td>" + person["times"]["total"] + "</td>";
+		view += "</tr>";
+	}
+
+
+
+	attendanceContainer.innerHTML = view + "</table>";
 }
 
 var makeCsv = function(i) {
@@ -112,19 +134,34 @@ var analyze = function() {
 			people[ID]["time"] += time_to_seconds(attendance[file][ID]["times"]["total"]);
 		}
 	}
+
 	hrs = 0;
 	for (person in people) {
 		hrs += people[person]["time"];
 	}
 
-	hrs = Math.round(hrs / 360) / 10;
+	hrs = Math.round(hrs / 360) / 10; //round to 1 decimal place
+	view = "<h4 style=\"text-align: center\">" + count + " people worked for " + hrs + " hours</h4><br/>";
 
-	view = "<p>" + count + " people worked for " + hrs + " hours</p>";
 	for (person in people) {
 		times += person + "," + people[person]["name"] + "," + seconds_to_time(people[person]["time"]) + "\n";
 	}
 
-	view += "<hr/>" + times.replace(/\n/g,"</p><p>") + "</p>";
+	view += "<table class=\"table table-hover\">";
+	view += "<tr><th>ID</th>";
+	view += "<th>First Name</th><th>Last Name</th>";
+    view += "<th>Time</th></tr>";
 
-	attendanceContainer.innerHTML = view;
+	var name;
+	for (person in people) {
+		name = people[person]["name"].split(" ");
+		view += "<tr>";
+		view +=	"<td>" + person + "</td>";
+		view += "<td>" + name[0] + "</td>";
+		view += "<td>" + name[1] + "</td>";
+		view +=	"<td>" + seconds_to_time(people[person]["time"]) + "</td>";
+		view += "</tr>";
+	}
+
+	attendanceContainer.innerHTML = view + "</table>";
 }
